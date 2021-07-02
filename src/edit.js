@@ -13,13 +13,16 @@ import { __ } from "@wordpress/i18n";
  */
 import {
 	useBlockProps,
-	RichText,
-	AlignmentToolbar,
-	ColorPalette,
-	InspectorControls,
-	BlockControls,
+	// RichText,
+	// AlignmentToolbar,
+	// ColorPalette,
+	// InspectorControls,
+	// BlockControls,
 } from "@wordpress/block-editor";
-import { TextControl } from "@wordpress/components";
+
+import { withSelect } from "@wordpress/data";
+
+// import { TextControl } from "@wordpress/components";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -37,45 +40,22 @@ import "./editor.scss";
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit({ attributes, setAttributes }) {
-	const onChangeBGColor = (hexColor) => {
-		setAttributes({ bg_color: hexColor });
-	};
+export default function Edit() {
+	withSelect((select) => {
+		return {
+			posts: select("core").getEntityRecords("postType", "post"),
+		};
+	})(({ posts }) => {
+		const blockProps = useBlockProps();
 
-	const onChangeTextColor = (hexColor) => {
-		setAttributes({ text_color: hexColor });
-	};
-
-	return (
-		<div {...useBlockProps()}>
-			<InspectorControls key="setting">
-				<div id="gutenpride-controls">
-					<fieldset>
-						<legend className="blocks-base-control__label">
-							{__("Background color", "gutenpride")}
-						</legend>
-						<ColorPalette // Element Tag for Gutenberg standard colour selector
-							onChange={onChangeBGColor} // onChange event callback
-						/>
-					</fieldset>
-					<fieldset>
-						<legend className="blocks-base-control__label">
-							{__("Text color", "gutenpride")}
-						</legend>
-						<ColorPalette // Element Tag for Gutenberg standard colour selector
-							onChange={onChangeTextColor} // onChange event callback
-						/>
-					</fieldset>
-				</div>
-			</InspectorControls>
-			<TextControl
-				value={attributes.message}
-				onChange={(val) => setAttributes({ message: val })}
-				style={{
-					backgroundColor: attributes.bg_color,
-					color: attributes.text_color,
-				}}
-			/>
-		</div>
-	);
+		return (
+			<div {...blockProps}>
+				{!posts && "Loading"}
+				{posts && posts.length === 0 && "No Posts"}
+				{posts && posts.length > 0 && (
+					<a href={posts[0].link}>{posts[0].title.rendered}</a>
+				)}
+			</div>
+		);
+	});
 }
