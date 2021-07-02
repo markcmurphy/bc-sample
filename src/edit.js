@@ -19,6 +19,7 @@ import {
 	InspectorControls,
 	BlockControls,
 } from "@wordpress/block-editor";
+import { TextControl } from "@wordpress/components";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
