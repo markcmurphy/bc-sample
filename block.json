@@ -17,6 +17,10 @@
 			"type": "array",
 			"source": "children",
 			"selector": "p"
+		},
+		"alignment": {
+			"type": "string",
+			"default": "none"
 		}
 	}
 }
