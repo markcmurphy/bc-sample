@@ -13,14 +13,13 @@
 	"editorStyle": "file:./build/index.css",
 	"style": "file:./build/style-index.css",
 	"attributes": {
-		"content": {
-			"type": "array",
-			"source": "children",
-			"selector": "p"
-		},
-		"alignment": {
+		"message": {
 			"type": "string",
-			"default": "none"
-		}
+			"source": "text",
+			"selector": "div",
+			"default": ""
+		},
+		"bg_color": { "type": "string", "default": "#000000" },
+		"text_color": { "type": "string", "default": "#ffffff" }
 	}
 }

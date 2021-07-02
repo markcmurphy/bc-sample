@@ -23,16 +23,16 @@ import { useBlockProps, RichText } from "@wordpress/block-editor";
  * @return {WPElement} Element to render.
  */
 
-export default function save(props) {
-	const blockProps = useBlockProps.save();
-
+export default function save({ attributes }) {
 	return (
-		<div {...blockProps}>
-			<RichText.Content
-				className={`gutenberg-examples-align-${props.attributes.alignment}`}
-				tagName="p"
-				value={props.attributes.content}
-			/>
+		<div
+			{...useBlockProps.save()}
+			style={{
+				backgroundColor: attributes.bg_color,
+				color: attributes.text_color,
+			}}
+		>
+			{attributes.message}
 		</div>
 	);
 }

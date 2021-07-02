@@ -15,6 +15,8 @@ import {
 	useBlockProps,
 	RichText,
 	AlignmentToolbar,
+	ColorPalette,
+	InspectorControls,
 	BlockControls,
 } from "@wordpress/block-editor";
 
@@ -35,32 +37,43 @@ import "./editor.scss";
  * @return {WPElement} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const onChangeContent = (newContent) => {
-		setAttributes({ content: newContent });
+	const onChangeBGColor = (hexColor) => {
+		setAttributes({ bg_color: hexColor });
 	};
 
-	const onChangeAlignment = (newAlignment) => {
-		setAttributes({
-			alignment: newAlignment === undefined ? "none" : newAlignment,
-		});
+	const onChangeTextColor = (hexColor) => {
+		setAttributes({ text_color: hexColor });
 	};
 
 	return (
 		<div {...useBlockProps()}>
-			{
-				<BlockControls>
-					<AlignmentToolbar
-						value={attributes.alignment}
-						onChange={onChangeAlignment}
-					/>
-				</BlockControls>
-			}
-			<RichText
-				className={attributes.className}
-				style={{ textAlign: attributes.alignment }}
-				tagName="p"
-				onChange={onChangeContent}
-				value={attributes.content}
+			<InspectorControls key="setting">
+				<div id="gutenpride-controls">
+					<fieldset>
+						<legend className="blocks-base-control__label">
+							{__("Background color", "gutenpride")}
+						</legend>
+						<ColorPalette // Element Tag for Gutenberg standard colour selector
+							onChange={onChangeBGColor} // onChange event callback
+						/>
+					</fieldset>
+					<fieldset>
+						<legend className="blocks-base-control__label">
+							{__("Text color", "gutenpride")}
+						</legend>
+						<ColorPalette // Element Tag for Gutenberg standard colour selector
+							onChange={onChangeTextColor} // onChange event callback
+						/>
+					</fieldset>
+				</div>
+			</InspectorControls>
+			<TextControl
+				value={attributes.message}
+				onChange={(val) => setAttributes({ message: val })}
+				style={{
+					backgroundColor: attributes.bg_color,
+					color: attributes.text_color,
+				}}
 			/>
 		</div>
 	);
