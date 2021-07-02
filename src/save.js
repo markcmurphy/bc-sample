@@ -25,11 +25,14 @@ import { useBlockProps, RichText } from "@wordpress/block-editor";
 
 export default function save(props) {
 	const blockProps = useBlockProps.save();
+
 	return (
-		<RichText.Content
-			{...blockProps}
-			tagName="p"
-			value={props.attributes.content}
-		/>
+		<div {...blockProps}>
+			<RichText.Content
+				className={`gutenberg-examples-align-${props.attributes.alignment}`}
+				tagName="p"
+				value={props.attributes.content}
+			/>
+		</div>
 	);
 }
