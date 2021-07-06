@@ -30,8 +30,13 @@ export default function save({ attributes }) {
 
 	return (
 		<div {...useBlockProps.save()}>
-			{/* {attributes.message} */}
-			<div class="desc" dangerouslySetInnerHTML={createMarkup()}></div>
+			<h4 class="bc-single-product__section-title">
+				{attributes.product_title}
+			</h4>
+			<section
+				class="desc bc-single-product__description"
+				dangerouslySetInnerHTML={createMarkup()}
+			></section>
 		</div>
 	);
 }

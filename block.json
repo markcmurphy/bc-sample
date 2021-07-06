@@ -25,6 +25,12 @@
 			"selector": ".desc",
 			"default": ""
 		},
+		"product_title": {
+			"type": "string",
+			"source": "text",
+			"selector": ".bc-single-product__section-title",
+			"default": ""
+		},
 		"variant": {
 			"type": "string",
 			"source": "html",

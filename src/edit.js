@@ -56,6 +56,7 @@ export default function Edit({ attributes, setAttributes }) {
 			.then((result) =>
 				setAttributes({
 					product_description: result.data.description,
+					product_title: result.data.name,
 				})
 			)
 			.catch((error) => console.log("error", error));
@@ -69,10 +70,9 @@ export default function Edit({ attributes, setAttributes }) {
 
 	return (
 		<div {...useBlockProps()}>
-			<InspectorControls key="setting">
+			<InspectorControls key="setting" class="inspector">
 				<div id="gutenpride-controls">
 					<SelectControl
-						multiple
 						label={__("Select some products:")}
 						value={productId}
 						onChange={(products) => setProductId(products)}
@@ -85,7 +85,14 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</div>
 			</InspectorControls>
-			<div class="desc" dangerouslySetInnerHTML={createMarkup()}></div>
+			<h4 class="bc-single-product__section-title">
+				{attributes.product_title}
+			</h4>
+
+			<section
+				class="desc bc-single-product__description"
+				dangerouslySetInnerHTML={createMarkup()}
+			></section>
 		</div>
 	);
 }
