@@ -11,19 +11,9 @@ import { __ } from "@wordpress/i18n";
  *
  * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
  */
-import {
-	useBlockProps,
-	RichText,
-	AlignmentToolbar,
-	InspectorControls,
-	BlockControls,
-} from "@wordpress/block-editor";
+import { useBlockProps, InspectorControls } from "@wordpress/block-editor";
 
-import {
-	TextControl,
-	SelectControl,
-	__experimentalInputControl as InputControl,
-} from "@wordpress/components";
+import { __experimentalInputControl as InputControl } from "@wordpress/components";
 
 import { useState } from "@wordpress/element";
 
@@ -62,20 +52,12 @@ export default function Edit({ attributes, setAttributes }) {
 				setAttributes({
 					variant_img_url: result.data[0].image_url,
 					variant_sku: result.data[0].sku,
-					// 	// product_description: result.data.description,
-					// 	// product_title: result.data.name,
-					// 	// product_id: result.data.id,
 				})
 			)
 			.catch((error) => console.log("error", error));
 	};
 
 	runApiFetch(value);
-	console.log(value);
-
-	// function createMarkup() {
-	// 	return { __html: attributes.product_description };
-	// }
 
 	console.log(attributes.variant_img_url);
 
@@ -87,28 +69,9 @@ export default function Edit({ attributes, setAttributes }) {
 						value={value}
 						onChange={(nextValue) => setValue(nextValue)}
 					/>
-					{/* <SelectControl
-						label={__("Select some products:")}
-						value={productId}
-						onChange={(products) => setProductId(products)}
-						options={[
-							{ value: null, label: "Select a Product", disabled: true },
-							{ value: "137", label: "Women's short sleeve t-shirt" },
-							{ value: "139", label: "Bobblehead" },
-							{ value: "120", label: "Fog Linen Chambray Towel" },
-						]}
-					/> */}
 				</div>
 			</InspectorControls>
-			{/* <h4 class="bc-single-product__section-title">
-				{attributes.product_title}
-			</h4> */}
 			<img src={attributes.variant_img_url} />
-
-			{/* <section
-				class="desc bc-single-product__description"
-				dangerouslySetInnerHTML={createMarkup()}
-			></section> */}
 		</div>
 	);
 }

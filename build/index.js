@@ -241,18 +241,11 @@ function Edit({
     };
     fetch(`https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/variants?sku=${sku}`, requestOptions).then(response => response.json()).then(result => setAttributes({
       variant_img_url: result.data[0].image_url,
-      variant_sku: result.data[0].sku // 	// product_description: result.data.description,
-      // 	// product_title: result.data.name,
-      // 	// product_id: result.data.id,
-
+      variant_sku: result.data[0].sku
     })).catch(error => console.log("error", error));
   };
 
   runApiFetch(value);
-  console.log(value); // function createMarkup() {
-  // 	return { __html: attributes.product_description };
-  // }
-
   console.log(attributes.variant_img_url);
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__["useBlockProps"])(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__["InspectorControls"], {
     key: "setting",
