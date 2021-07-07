@@ -26,4 +26,5 @@
 function create_block_bc_sample_block_init() {
 	register_block_type_from_metadata( __DIR__);
 }
+
 add_action( 'init', 'create_block_bc_sample_block_init' );
