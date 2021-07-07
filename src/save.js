@@ -24,5 +24,19 @@ import { useBlockProps, RichText } from "@wordpress/block-editor";
  */
 
 export default function save({ attributes }) {
-	return null;
+	function createMarkup() {
+		return { __html: attributes.product_description };
+	}
+
+	return (
+		<div {...useBlockProps.save()}>
+			<h4 class="bc-single-product__section-title">
+				{attributes.product_title}
+			</h4>
+			<section
+				class="desc bc-single-product__description"
+				dangerouslySetInnerHTML={createMarkup()}
+			></section>
+		</div>
+	);
 }

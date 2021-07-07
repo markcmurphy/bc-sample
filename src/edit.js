@@ -13,16 +13,15 @@ import { __ } from "@wordpress/i18n";
  */
 import {
 	useBlockProps,
-	// RichText,
-	// AlignmentToolbar,
-	// ColorPalette,
-	// InspectorControls,
-	// BlockControls,
+	RichText,
+	AlignmentToolbar,
+	InspectorControls,
+	BlockControls,
 } from "@wordpress/block-editor";
 
-import { withSelect } from "@wordpress/data";
+import { TextControl, SelectControl } from "@wordpress/components";
 
-// import { TextControl } from "@wordpress/components";
+import { useState } from "@wordpress/element";
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -40,22 +39,60 @@ import "./editor.scss";
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit() {
-	withSelect((select) => {
-		return {
-			posts: select("core").getEntityRecords("postType", "post"),
-		};
-	})(({ posts }) => {
-		const blockProps = useBlockProps();
+export default function Edit({ attributes, setAttributes }) {
+	const [productId, setProductId] = useState(137);
 
-		return (
-			<div {...blockProps}>
-				{!posts && "Loading"}
-				{posts && posts.length === 0 && "No Posts"}
-				{posts && posts.length > 0 && (
-					<a href={posts[0].link}>{posts[0].title.rendered}</a>
-				)}
-			</div>
-		);
-	});
+	const runApiFetch = (id) => {
+		var requestOptions = {
+			method: "GET",
+			redirect: "follow",
+		};
+
+		fetch(
+			`https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/products/${id}`,
+			requestOptions
+		)
+			.then((response) => response.json())
+			.then((result) =>
+				setAttributes({
+					product_description: result.data.description,
+					product_title: result.data.name,
+				})
+			)
+			.catch((error) => console.log("error", error));
+	};
+
+	runApiFetch(productId);
+
+	function createMarkup() {
+		return { __html: attributes.product_description };
+	}
+
+	return (
+		<div {...useBlockProps()}>
+			<InspectorControls key="setting" class="inspector">
+				<div id="gutenpride-controls">
+					<SelectControl
+						label={__("Select some products:")}
+						value={productId}
+						onChange={(products) => setProductId(products)}
+						options={[
+							{ value: null, label: "Select a Product", disabled: true },
+							{ value: "137", label: "Women's short sleeve t-shirt" },
+							{ value: "139", label: "Bobblehead" },
+							{ value: "120", label: "Fog Linen Chambray Towel" },
+						]}
+					/>
+				</div>
+			</InspectorControls>
+			<h4 class="bc-single-product__section-title">
+				{attributes.product_title}
+			</h4>
+
+			<section
+				class="desc bc-single-product__description"
+				dangerouslySetInnerHTML={createMarkup()}
+			></section>
+		</div>
+	);
 }
