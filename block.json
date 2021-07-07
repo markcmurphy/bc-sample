@@ -15,26 +15,21 @@
 	"attributes": {
 		"message": {
 			"type": "string",
-			"source": "text",
-			"selector": "div",
 			"default": ""
 		},
 		"product_description": {
 			"type": "string",
-			"source": "html",
-			"selector": ".desc",
 			"default": ""
+		},
+		"product_id": {
+			"type": "number"
 		},
 		"product_title": {
 			"type": "string",
-			"source": "text",
-			"selector": ".bc-single-product__section-title",
 			"default": ""
 		},
 		"variant": {
 			"type": "string",
-			"source": "html",
-			"selector": ".desc",
 			"default": ""
 		},
 		"bg_color": { "type": "string", "default": "#000000" },

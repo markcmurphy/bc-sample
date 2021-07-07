@@ -57,6 +57,7 @@ export default function Edit({ attributes, setAttributes }) {
 				setAttributes({
 					product_description: result.data.description,
 					product_title: result.data.name,
+					product_id: result.data.id,
 				})
 			)
 			.catch((error) => console.log("error", error));

@@ -23,20 +23,6 @@ import { useBlockProps, RichText } from "@wordpress/block-editor";
  * @return {WPElement} Element to render.
  */
 
-export default function save({ attributes }) {
-	function createMarkup() {
-		return { __html: attributes.product_description };
-	}
-
-	return (
-		<div {...useBlockProps.save()}>
-			<h4 class="bc-single-product__section-title">
-				{attributes.product_title}
-			</h4>
-			<section
-				class="desc bc-single-product__description"
-				dangerouslySetInnerHTML={createMarkup()}
-			></section>
-		</div>
-	);
+export default function save() {
+	return null;
 }
