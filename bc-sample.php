@@ -29,8 +29,6 @@ function bc_sample_render_callback( $attr, $content ) {
 
 	$url = 'https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/products/'.$attr['product_id'];
 
-	var_dump($url);
-
 	$request = wp_remote_get( $url );
 
 	if( is_wp_error( $request ) ) {
