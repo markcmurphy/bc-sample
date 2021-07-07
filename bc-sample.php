@@ -27,7 +27,7 @@
 
 function bc_sample_render_callback( $attr, $content ) {
 
-	$url = 'https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/products/'.$attr['product_id'];
+	$url = 'https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/variants?sku='.$attr['variant_sku'];
 
 	$request = wp_remote_get( $url );
 
@@ -39,13 +39,12 @@ function bc_sample_render_callback( $attr, $content ) {
 
 	$data = json_decode( $body );	
 
+	// var_dump($data->data[0]->image_url);
+
 		$str = '';
-		$str = '<h4>';
-		$str .= strval($data->data->name);
-		$str .= '</h4>';
-		$str .= '<section>';
-		$str .= strval($data->data->description);
-		$str .= '</section>';
+		$str = '<img src="';
+		$str .= strval($data->data[0]->image_url);
+		$str .= '"/>';
 
 		return $str;
 
@@ -71,12 +70,10 @@ function create_block_bc_sample_block_init() {
 			'type'=> 'string',
 			'default'=> ''
 		],
-		'variant'=> [
+		'variant_sku'=> [
 			'type'=> 'string',
 			'default'=> ''
 		],
-		'bg_color'=> [ 'type'=> 'string', 'default'=> '#000000' ],
-		'text_color'=> [ 'type'=> 'string', 'default'=> '#ffffff' ]
 	]]);
 	};
 

@@ -19,7 +19,11 @@ import {
 	BlockControls,
 } from "@wordpress/block-editor";
 
-import { TextControl, SelectControl } from "@wordpress/components";
+import {
+	TextControl,
+	SelectControl,
+	__experimentalInputControl as InputControl,
+} from "@wordpress/components";
 
 import { useState } from "@wordpress/element";
 
@@ -41,39 +45,49 @@ import "./editor.scss";
  */
 export default function Edit({ attributes, setAttributes }) {
 	const [productId, setProductId] = useState(137);
+	const [value, setValue] = useState("");
 
-	const runApiFetch = (id) => {
+	const runApiFetch = (sku) => {
 		var requestOptions = {
 			method: "GET",
 			redirect: "follow",
 		};
 
 		fetch(
-			`https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/products/${id}`,
+			`https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/variants?sku=${sku}`,
 			requestOptions
 		)
 			.then((response) => response.json())
 			.then((result) =>
 				setAttributes({
-					product_description: result.data.description,
-					product_title: result.data.name,
-					product_id: result.data.id,
+					variant_img_url: result.data[0].image_url,
+					variant_sku: result.data[0].sku,
+					// 	// product_description: result.data.description,
+					// 	// product_title: result.data.name,
+					// 	// product_id: result.data.id,
 				})
 			)
 			.catch((error) => console.log("error", error));
 	};
 
-	runApiFetch(productId);
+	runApiFetch(value);
+	console.log(value);
 
-	function createMarkup() {
-		return { __html: attributes.product_description };
-	}
+	// function createMarkup() {
+	// 	return { __html: attributes.product_description };
+	// }
+
+	console.log(attributes.variant_img_url);
 
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls key="setting" class="inspector">
 				<div id="gutenpride-controls">
-					<SelectControl
+					<InputControl
+						value={value}
+						onChange={(nextValue) => setValue(nextValue)}
+					/>
+					{/* <SelectControl
 						label={__("Select some products:")}
 						value={productId}
 						onChange={(products) => setProductId(products)}
@@ -83,17 +97,18 @@ export default function Edit({ attributes, setAttributes }) {
 							{ value: "139", label: "Bobblehead" },
 							{ value: "120", label: "Fog Linen Chambray Towel" },
 						]}
-					/>
+					/> */}
 				</div>
 			</InspectorControls>
-			<h4 class="bc-single-product__section-title">
+			{/* <h4 class="bc-single-product__section-title">
 				{attributes.product_title}
-			</h4>
+			</h4> */}
+			<img src={attributes.variant_img_url} />
 
-			<section
+			{/* <section
 				class="desc bc-single-product__description"
 				dangerouslySetInnerHTML={createMarkup()}
-			></section>
+			></section> */}
 		</div>
 	);
 }

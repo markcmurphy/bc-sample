@@ -28,10 +28,15 @@
 			"type": "string",
 			"default": ""
 		},
-		"variant": {
+		"variant_sku": {
 			"type": "string",
 			"default": ""
 		},
+		"variant_img_url": {
+			"type": "string",
+			"default": ""
+		},
+
 		"bg_color": { "type": "string", "default": "#000000" },
 		"text_color": { "type": "string", "default": "#ffffff" }
 	}

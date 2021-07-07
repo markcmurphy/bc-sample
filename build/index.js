@@ -232,55 +232,38 @@ function Edit({
   setAttributes
 }) {
   const [productId, setProductId] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])(137);
+  const [value, setValue] = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useState"])("");
 
-  const runApiFetch = id => {
+  const runApiFetch = sku => {
     var requestOptions = {
       method: "GET",
       redirect: "follow"
     };
-    fetch(`https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/products/${id}`, requestOptions).then(response => response.json()).then(result => setAttributes({
-      product_description: result.data.description,
-      product_title: result.data.name,
-      product_id: result.data.id
+    fetch(`https://wp01.murphymark.me/wp03/wp-json/bc/v3/catalog/variants?sku=${sku}`, requestOptions).then(response => response.json()).then(result => setAttributes({
+      variant_img_url: result.data[0].image_url,
+      variant_sku: result.data[0].sku // 	// product_description: result.data.description,
+      // 	// product_title: result.data.name,
+      // 	// product_id: result.data.id,
+
     })).catch(error => console.log("error", error));
   };
 
-  runApiFetch(productId);
+  runApiFetch(value);
+  console.log(value); // function createMarkup() {
+  // 	return { __html: attributes.product_description };
+  // }
 
-  function createMarkup() {
-    return {
-      __html: attributes.product_description
-    };
-  }
-
+  console.log(attributes.variant_img_url);
   return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__["useBlockProps"])(), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__["InspectorControls"], {
     key: "setting",
     class: "inspector"
   }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
     id: "gutenpride-controls"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["SelectControl"], {
-    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__["__"])("Select some products:"),
-    value: productId,
-    onChange: products => setProductId(products),
-    options: [{
-      value: null,
-      label: "Select a Product",
-      disabled: true
-    }, {
-      value: "137",
-      label: "Women's short sleeve t-shirt"
-    }, {
-      value: "139",
-      label: "Bobblehead"
-    }, {
-      value: "120",
-      label: "Fog Linen Chambray Towel"
-    }]
-  }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("h4", {
-    class: "bc-single-product__section-title"
-  }, attributes.product_title), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("section", {
-    class: "desc bc-single-product__description",
-    dangerouslySetInnerHTML: createMarkup()
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__["__experimentalInputControl"], {
+    value: value,
+    onChange: nextValue => setValue(nextValue)
+  }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("img", {
+    src: attributes.variant_img_url
   }));
 }
 
